@@ -72,6 +72,6 @@ public class EnterAppActivity extends AppCompatActivity{
             }
         }
     }
-// testing 
+// testing testing 123
 
 }
