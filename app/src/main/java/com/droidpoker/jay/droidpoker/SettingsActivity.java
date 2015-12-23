@@ -8,11 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-
-import java.lang.reflect.Array;
-
 import poker.TexasHoldem;
 
 
@@ -21,6 +19,7 @@ public class SettingsActivity extends AppCompatActivity
 
     protected Spinner numPlayers_spinner;
     protected TexasHoldem game;
+    protected EditText enter_cash_et;
     protected int desiredNumPlayers;
     protected boolean numPlayersChanged;
     protected boolean entryCashChanged;
@@ -30,50 +29,28 @@ public class SettingsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
         Bundle bundle = getIntent().getExtras();
         game = (TexasHoldem)bundle.getSerializable("game");
+
         Log.d( "JDEBUG", "player 1 name --> " + game.getPlayer(0).getName() );
         Log.d( "JDEBUG", "player 2 name --> " + game.getPlayer(1).getName() );
+
         numPlayers_spinner = (Spinner) findViewById(R.id.num_players_spinner);
+
         ArrayAdapter<CharSequence> charAdapter =
                 ArrayAdapter.createFromResource(this, R.array.num_players_array,
                         android.R.layout.simple_spinner_item);
+
         charAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         numPlayers_spinner.setAdapter(charAdapter);
         numPlayers_spinner.setOnItemSelectedListener(this);
+
         // intialize game parametes
         desiredNumPlayers = 2;
         numPlayersChanged = false;
         entryCashChanged = false;
         startingCash = 1500;
-    }
-
-//    @Override
-//    public void onStop(){
-//        // this will update the texasHoldem object when the options menu is backed out of..
-//        // called when back button is pressed
-//        if(numPlayersChanged)
-//            setNumPlayers(desiredNumPlayers, game);
-//
-//        // send class back to EnterAppActivity
-//        Intent intent = new Intent(SettingsActivity.this, EnterAppActivity.class);
-//        intent.putExtra("gameFromSettings", game);
-//        setResult(Activity.RESULT_OK, intent);
-//        super.onStop();
-//        finish();
-//    }
-
-    @Override
-    public void onBackPressed(){
-        if(numPlayersChanged)
-            setNumPlayers(desiredNumPlayers, game);
-
-        // send class back to EnterAppActivity
-        Intent intent = new Intent(SettingsActivity.this, EnterAppActivity.class);
-        intent.putExtra("gameFromSettings", game);
-        setResult(Activity.RESULT_OK, intent);
-        //finish();
-        super.onBackPressed();
     }
 
     @Override
@@ -115,5 +92,23 @@ public class SettingsActivity extends AppCompatActivity
         else
             System.out.println("JDEBUG: Number of existing players already matches requested amount");
         System.out.println(game);
+    }
+
+    @Override
+    public void onBackPressed(){
+        // set number of players in game
+        if(numPlayersChanged)
+            setNumPlayers(desiredNumPlayers, game);
+
+        // set amount of cash starting with
+        enter_cash_et = (EditText)findViewById(R.id.starting_cash_etxt);
+        int starting_cash = Integer.parseInt(enter_cash_et.getText().toString() );
+        game.setEnterCash(starting_cash);
+
+        // send modifed texasholdem class back to EnterAppActivity
+        Intent intent = new Intent(SettingsActivity.this, EnterAppActivity.class);
+        intent.putExtra("gameFromSettings", game);
+        setResult(Activity.RESULT_OK, intent);
+        super.onBackPressed();
     }
 }

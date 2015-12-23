@@ -32,8 +32,7 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".StatActivity"
-            android:label="@string/title_activity_stat"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:label="@string/title_activity_stat"/>
     </application>
 
 </manifest>
