@@ -2,6 +2,7 @@ package com.droidpoker.jay.droidpoker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +10,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
+
+import java.util.Vector;
 import poker.TexasHoldem;
 
 
@@ -24,6 +31,9 @@ public class SettingsActivity extends AppCompatActivity
     protected boolean numPlayersChanged;
     protected boolean entryCashChanged;
     protected int startingCash;
+    protected ListView names_lv;
+
+    public Vector<Drawable> playerImgs = new Vector<Drawable>(6);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +43,8 @@ public class SettingsActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         game = (TexasHoldem)bundle.getSerializable("game");
 
-        Log.d( "JDEBUG", "player 1 name --> " + game.getPlayer(0).getName() );
-        Log.d( "JDEBUG", "player 2 name --> " + game.getPlayer(1).getName() );
+        Log.d("JDEBUG", "player 1 name --> " + game.getPlayer(0).getName());
+        Log.d("JDEBUG", "player 2 name --> " + game.getPlayer(1).getName());
 
         numPlayers_spinner = (Spinner) findViewById(R.id.num_players_spinner);
 
@@ -46,27 +56,53 @@ public class SettingsActivity extends AppCompatActivity
         numPlayers_spinner.setAdapter(charAdapter);
         numPlayers_spinner.setOnItemSelectedListener(this);
 
-        // intialize game parametes
+        // render 2 player list view
+        names_lv = (ListView)findViewById(R.id.names_list_view);
+        String[] names = {game.getPlayer(0).getName(), game.getPlayer(1).getName() };
+
+        // intialize game parametes and Drawable
         desiredNumPlayers = 2;
         numPlayersChanged = false;
         entryCashChanged = false;
         startingCash = 1500;
+
+        Runnable decodeImgs = new Runnable(){
+            @Override
+            public void run() {
+                // load and decode player icon imgs at activity start up
+                int[] img_res = {R.mipmap.me, R.mipmap.kels, R.mipmap.trip_mario,
+                        R.mipmap.joker, R.mipmap.clown, R.mipmap.dragon};
+                for (int resid : img_res) {
+                    Drawable icon = getResources().getDrawable(resid);
+                    playerImgs.add(icon);
+                }
+            }
+        };
+        decodeImgs.run();
+        renderNameList(names_lv, names);
+
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // number of players selected bu user
-        Log.d("JDEBUG: ", "ITEM SELECTED at position: " + position);
+        // number of players selected by user
+        Log.d("JDEBUG: ", " ITEM SELECTED at position: " + position);
         SpinnerAdapter sa = numPlayers_spinner.getAdapter();
         desiredNumPlayers = Integer.parseInt( (String)sa.getItem(position) );
-        numPlayersChanged = true;
-        System.out.println("JDEBUG::dataPt: " + desiredNumPlayers);
+        System.out.println("JDEBUG::dataPt: " + desiredNumPlayers + ", rendering name listview...");
+        setNumPlayers(desiredNumPlayers, game);
+        renderNameList(names_lv, game.getPlayerNames());
+        TextView tv = (TextView)findViewById(R.id.start_cash_tveiw);
+
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
 
     private static void setNumPlayers(int numPlayers, TexasHoldem game){
         // sets number of players in game obj
@@ -96,9 +132,6 @@ public class SettingsActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed(){
-        // set number of players in game
-        if(numPlayersChanged)
-            setNumPlayers(desiredNumPlayers, game);
 
         // set amount of cash starting with
         enter_cash_et = (EditText)findViewById(R.id.starting_cash_etxt);
@@ -110,5 +143,27 @@ public class SettingsActivity extends AppCompatActivity
         intent.putExtra("gameFromSettings", game);
         setResult(Activity.RESULT_OK, intent);
         super.onBackPressed();
+    }
+
+
+    private void renderNameList(ListView lv, String[] names){
+        /** when user selects how many user are to play in the game
+         *  the list view will automatically update
+         *
+         *  a new adapter is created and the list is populated and
+         *  player pictures are applied
+         */
+
+        System.out.println("RenderNameList:: attempting to render name list...");
+        int cnt = 0;
+        View v = null;
+        LinearLayout dum = null;
+        lv.setAdapter( new NamesItemAdapter(this, names) );
+
+        for(int i = 0 ; i < names.length; i++){
+            LinearLayout ll = (LinearLayout) lv.getAdapter().getView(cnt, v, dum);
+            ImageView iv = (ImageView) ll.findViewById(R.id.player_icon_imgview);
+            iv.setImageDrawable( playerImgs.get(i) );
+        }
     }
 }

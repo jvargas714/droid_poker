@@ -16,6 +16,7 @@
     <string name="num_players_default">2</string>
     <string name="default_cash">1500</string>
     <string name="default_cash_hint">default: $1500</string>
+    <string name="default_name">Player</string>
 
     <string-array name="num_players_array">
         <item>2</item>

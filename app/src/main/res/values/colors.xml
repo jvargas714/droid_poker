@@ -5,4 +5,11 @@
     <color name="colorAccent">#FF4081</color>
     <color name="black_overlay">#66000000</color>
     <color name="table_green">#0FC26F</color>
+    <color name="player_name_header">#C0C3B1</color>
+    <color name="black">#000000</color>
+    <color name="dark_green">#2B5F32</color>
+    <color name="mulberry">#5F2B3E</color>
+    <color name="black_pepper">#4A453F</color>
+    <color name="heavy_metal">#454A3F</color>
+    <color name="mishka">#A7ABB4</color>
 </resources>
