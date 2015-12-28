@@ -72,13 +72,39 @@
     </LinearLayout>
 
     <include layout="@layout/names_list_header"/>
-    <ListView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/player_names_ll"
         android:background="@color/black_overlay"
-        android:id="@+id/names_list_view"
-        android:divider="@color/table_green">
-    </ListView>
+        android:orientation="vertical">
+
+        <include layout="@layout/player_name_item"
+            android:id="@+id/player1_item">
+        </include>
+
+        <include layout="@layout/player_name_item"
+            android:id="@+id/player2_item">
+        </include>
+
+        <include layout="@layout/player_name_item"
+            android:id="@+id/player3_item">
+        </include>
+
+        <include layout="@layout/player_name_item"
+            android:id="@+id/player4_item">
+        </include>
+
+        <include layout="@layout/player_name_item"
+            android:id="@+id/player5_item">
+        </include>
+
+        <include layout="@layout/player_name_item"
+            android:id="@+id/player6_item">
+        </include>
+
+    </LinearLayout>
 
 
 

@@ -1,5 +1,7 @@
 package com.droidpoker.jay.droidpoker;
-
+/**
+ * TODO: Still need to add functionality for name changes from the GUI
+ */
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -12,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -31,9 +32,11 @@ public class SettingsActivity extends AppCompatActivity
     protected boolean numPlayersChanged;
     protected boolean entryCashChanged;
     protected int startingCash;
-    protected ListView names_lv;
+    protected LinearLayout player_names_ll;
+    protected int[] player_name_item_res = {R.id.player1_item, R.id.player2_item, R.id.player3_item,
+                                            R.id.player4_item, R.id.player5_item, R.id.player6_item};
+    public Vector<Drawable> playerImgs = new Vector<>(6);
 
-    public Vector<Drawable> playerImgs = new Vector<Drawable>(6);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         game = (TexasHoldem)bundle.getSerializable("game");
 
+        assert game != null;
         Log.d("JDEBUG", "player 1 name --> " + game.getPlayer(0).getName());
         Log.d("JDEBUG", "player 2 name --> " + game.getPlayer(1).getName());
 
@@ -57,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity
         numPlayers_spinner.setOnItemSelectedListener(this);
 
         // render 2 player list view
-        names_lv = (ListView)findViewById(R.id.names_list_view);
+        player_names_ll = (LinearLayout)findViewById(R.id.player_names_ll);
         String[] names = {game.getPlayer(0).getName(), game.getPlayer(1).getName() };
 
         // intialize game parametes and Drawable
@@ -79,8 +83,7 @@ public class SettingsActivity extends AppCompatActivity
             }
         };
         decodeImgs.run();
-        renderNameList(names_lv, names);
-
+        renderNameList(player_names_ll, names);
     }
 
 
@@ -92,9 +95,9 @@ public class SettingsActivity extends AppCompatActivity
         desiredNumPlayers = Integer.parseInt( (String)sa.getItem(position) );
         System.out.println("JDEBUG::dataPt: " + desiredNumPlayers + ", rendering name listview...");
         setNumPlayers(desiredNumPlayers, game);
-        renderNameList(names_lv, game.getPlayerNames());
+        System.out.println("onItemSelected: game.getPlayerNames(): " + game.getPlayerNames() );
+        renderNameList( player_names_ll, game.getPlayerNames() );
         TextView tv = (TextView)findViewById(R.id.start_cash_tveiw);
-
     }
 
 
@@ -146,7 +149,7 @@ public class SettingsActivity extends AppCompatActivity
     }
 
 
-    private void renderNameList(ListView lv, String[] names){
+    private void renderNameList(LinearLayout ll, String[] names){
         /** when user selects how many user are to play in the game
          *  the list view will automatically update
          *
@@ -154,16 +157,23 @@ public class SettingsActivity extends AppCompatActivity
          *  player pictures are applied
          */
 
-        System.out.println("RenderNameList:: attempting to render name list...");
-        int cnt = 0;
-        View v = null;
-        LinearLayout dum = null;
-        lv.setAdapter( new NamesItemAdapter(this, names) );
+        System.out.println("RenderNameList:: attempting to render name list..");
+        System.out.println("Length of names: " + names.length);
 
         for(int i = 0 ; i < names.length; i++){
-            LinearLayout ll = (LinearLayout) lv.getAdapter().getView(cnt, v, dum);
-            ImageView iv = (ImageView) ll.findViewById(R.id.player_icon_imgview);
-            iv.setImageDrawable( playerImgs.get(i) );
+            ll.findViewById(player_name_item_res[i]).setVisibility(View.VISIBLE);
+            ImageView iv = (ImageView) ll.findViewById(player_name_item_res[i]).
+                    findViewById(R.id.player_icon_imgview);
+            iv.setImageDrawable(playerImgs.get(i));
+
+            EditText et = (EditText)ll.findViewById(player_name_item_res[i]).
+                    findViewById(R.id.player_name_item_et);
+            et.setText( names[i] );
+        }
+        // hide views not in use
+        int numToRemove = 6 - names.length;
+        for(int i = 0; i < numToRemove; i++){
+            ll.findViewById(player_name_item_res[5-i]).setVisibility(View.INVISIBLE);
         }
     }
 }
