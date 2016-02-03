@@ -1,6 +1,5 @@
 package com.droidpoker.jay.droidpoker;
 /**
- * TODO: Still need to add functionality for name changes from the GUI
  */
 import android.app.Activity;
 import android.content.Intent;
@@ -25,17 +24,19 @@ import poker.TexasHoldem;
 public class SettingsActivity extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
 
-    protected Spinner numPlayers_spinner;
-    protected TexasHoldem game;
-    protected EditText enter_cash_et;
-    protected int desiredNumPlayers;
-    protected boolean numPlayersChanged;
-    protected boolean entryCashChanged;
-    protected int startingCash;
-    protected LinearLayout player_names_ll;
-    protected int[] player_name_item_res = {R.id.player1_item, R.id.player2_item, R.id.player3_item,
-                                            R.id.player4_item, R.id.player5_item, R.id.player6_item};
+    protected Spinner       numPlayers_spinner;
+    protected TexasHoldem   game;
+    protected EditText      enter_cash_et;
+    protected int           desiredNumPlayers;
+    protected boolean       numPlayersChanged;
+    protected boolean       entryCashChanged;
+    protected int           startingCash;
+    protected LinearLayout  player_names_ll;
+    protected int[]         player_name_item_res = {R.id.player1_item, R.id.player2_item, R.id.player3_item,
+                            R.id.player4_item, R.id.player5_item, R.id.player6_item};
     public Vector<Drawable> playerImgs = new Vector<>(6);
+    private int[]           img_res = {R.mipmap.me, R.mipmap.kels, R.mipmap.trip_mario,
+                            R.mipmap.joker, R.mipmap.clown, R.mipmap.dragon};
 
 
     @Override
@@ -74,8 +75,6 @@ public class SettingsActivity extends AppCompatActivity
             @Override
             public void run() {
                 // load and decode player icon imgs at activity start up
-                int[] img_res = {R.mipmap.me, R.mipmap.kels, R.mipmap.trip_mario,
-                        R.mipmap.joker, R.mipmap.clown, R.mipmap.dragon};
                 for (int resid : img_res) {
                     Drawable icon = getResources().getDrawable(resid);
                     playerImgs.add(icon);
@@ -135,11 +134,20 @@ public class SettingsActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed(){
-
         // set amount of cash starting with
         enter_cash_et = (EditText)findViewById(R.id.starting_cash_etxt);
         int starting_cash = Integer.parseInt(enter_cash_et.getText().toString() );
         game.setEnterCash(starting_cash);
+
+        // copy names in TextEdit player name elements
+        for(int i = 0; i < game.getNumPlayers(); i++){
+            EditText name_et = (EditText)findViewById(player_name_item_res[i]).
+                    findViewById(R.id.player_name_item_et);
+            String name = name_et.getText().toString();
+            System.out.println("Adding name to game object--> old name: " + game.getPlayerNames()[i]
+                    +" and new name: " + name );
+            game.getPlayer(i).namePlayer(name);
+        }
 
         // send modifed texasholdem class back to EnterAppActivity
         Intent intent = new Intent(SettingsActivity.this, EnterAppActivity.class);

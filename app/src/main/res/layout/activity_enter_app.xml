@@ -6,9 +6,32 @@
     android:fitsSystemWindows="true"
     android:background="@drawable/creepy_joker">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom"
+            android:alpha=".80"
+            android:background="@color/black_pepper"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:textColor="@color/black"
+            android:elegantTextHeight="true"
+            android:text="@string/play"
+            android:onClick="beginGame"
+            />
+
+
+    </LinearLayout>
+
     <include
         layout="@layout/app_bar_enter_app"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+
 
 </android.support.v4.widget.DrawerLayout>

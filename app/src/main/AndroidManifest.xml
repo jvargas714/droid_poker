@@ -16,6 +16,7 @@
             android:theme="@style/AppTheme.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -23,16 +24,20 @@
             android:name=".EnterAppActivity"
             android:label="@string/app_name"
             android:parentActivityName=".SplashActivity" />
-        <activity
-            android:name=".SettingsActivity"
-            />
+        <activity android:name=".SettingsActivity" />
         <activity
             android:name=".HelpActivity"
             android:label="@string/title_activity_help"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".StatActivity"
-            android:label="@string/title_activity_stat"/>
+            android:label="@string/title_activity_stat" />
+        <activity
+            android:name=".GamePlay"
+            android:label="@string/title_activity_game_play"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen">
+        </activity>
     </application>
 
 </manifest>

@@ -17,7 +17,8 @@
     <string name="default_cash">1500</string>
     <string name="default_cash_hint">default: $1500</string>
     <string name="default_name">Player</string>
-
+    <string name="play">Play</string>
+    <string name="starting_cash_amt">$1500</string>
     <string-array name="num_players_array">
         <item>2</item>
         <item>3</item>
@@ -25,4 +26,5 @@
         <item>5</item>
         <item>6</item>
     </string-array>
+    <string name="title_activity_game_play">GamePlay</string>
 </resources>

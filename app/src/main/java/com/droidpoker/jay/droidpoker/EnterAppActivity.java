@@ -1,5 +1,6 @@
 package com.droidpoker.jay.droidpoker;
-
+/* TODO: need to create the activity for game play aces well aces set the onclick for "play"
+ */
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
 import poker.TexasHoldem;
 
 public class EnterAppActivity extends AppCompatActivity{
@@ -71,5 +74,14 @@ public class EnterAppActivity extends AppCompatActivity{
                 System.out.println(game);
             }
         }
+    }
+
+    public void beginGame(View v){
+        /* called when play button is pressed
+            send app to gamePlay activity
+         */
+        Intent beginGameIntent = new Intent(EnterAppActivity.this, GamePlay.class);
+        beginGameIntent.putExtra("game", game);
+        startActivity(beginGameIntent);
     }
 }
