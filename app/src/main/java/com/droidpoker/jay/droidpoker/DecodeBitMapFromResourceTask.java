@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference;
  * example usage -->
  * DecodeBitMapFromResourceTask decodeTask = new DecodeBitMapFromResourceTask(ivToBeSet, res);
  * decodeTask.execute(resid, reqWidth, reqHeight);
- *
+ * testing
  */
 //                                                          resid,   void, imageView to get bitmap
 public class DecodeBitMapFromResourceTask extends AsyncTask<Integer, Void, Bitmap>
