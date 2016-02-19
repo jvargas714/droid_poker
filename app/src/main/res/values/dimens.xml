@@ -11,4 +11,5 @@
     <dimen name="card_height">48dp</dimen>
     <dimen name="card_width">35dp</dimen>
     <dimen name="player_cash_name_height">20dp</dimen>
+    <dimen name="player_icon_size_settings">65dp</dimen>
 </resources>
