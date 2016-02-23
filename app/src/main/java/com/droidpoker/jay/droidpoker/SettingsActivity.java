@@ -32,15 +32,22 @@ public class SettingsActivity extends AppCompatActivity
     protected boolean       entryCashChanged;
     protected int           startingCash;
     protected LinearLayout  player_names_ll;
-    protected int[]         player_name_item_res = {R.id.player1_item, R.id.player2_item, R.id.player3_item,
-                            R.id.player4_item, R.id.player5_item, R.id.player6_item};
+    protected int[] player_name_item_res =
+            {
+                R.id.player1_item, R.id.player2_item, R.id.player3_item,
+                R.id.player4_item, R.id.player5_item, R.id.player6_item
+            };
+    private int[] img_res =
+            {
+                R.mipmap.me, R.mipmap.kels, R.mipmap.trip_mario,
+                R.mipmap.joker, R.mipmap.clown, R.mipmap.dragon
+            };
     public Vector<Drawable> playerImgs = new Vector<>(6);
-    private int[]           img_res = {R.mipmap.me, R.mipmap.kels, R.mipmap.trip_mario,
-                            R.mipmap.joker, R.mipmap.clown, R.mipmap.dragon};
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -71,58 +78,67 @@ public class SettingsActivity extends AppCompatActivity
         entryCashChanged = false;
         startingCash = 1500;
 
-        Runnable decodeImgs = new Runnable(){
-            @Override
-            public void run() {
-                // load and decode player icon imgs at activity start up
-                for (int resid : img_res) {
-                    Drawable icon = getResources().getDrawable(resid);
-                    playerImgs.add(icon);
-                }
-            }
-        };
-        decodeImgs.run();
+//        Runnable decodeImgs = new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                // load and decode player icon imgs at activity start up
+//                for (int resid : img_res)
+//                {
+//                    Drawable icon = getResources().getDrawable(resid);
+//                    playerImgs.add(icon);
+//                }
+//            }
+//        };
+//        decodeImgs.run();
         renderNameList(player_names_ll, names);
     }
 
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+    {
         // number of players selected by user
         Log.d("JDEBUG: ", " ITEM SELECTED at position: " + position);
         SpinnerAdapter sa = numPlayers_spinner.getAdapter();
-        desiredNumPlayers = Integer.parseInt( (String)sa.getItem(position) );
+        desiredNumPlayers = Integer.parseInt( (String)sa.getItem( position ) );
         System.out.println("JDEBUG::dataPt: " + desiredNumPlayers + ", rendering name listview...");
         setNumPlayers(desiredNumPlayers, game);
-        System.out.println("onItemSelected: game.getPlayerNames(): " + game.getPlayerNames() );
         renderNameList( player_names_ll, game.getPlayerNames() );
-        TextView tv = (TextView)findViewById(R.id.start_cash_tveiw);
     }
 
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(AdapterView<?> parent)
+    {
 
     }
 
 
-    private static void setNumPlayers(int numPlayers, TexasHoldem game){
-        // sets number of players in game obj
-        // set number of players
+    private static void setNumPlayers(int numPlayers, TexasHoldem game)
+    {
+        /**
+        sets number of players in game obj
+        set number of players
+         */
         System.out.println("SetNumPlayers called...");
-        if(game.getNumPlayers() < numPlayers){
+        if(game.getNumPlayers() < numPlayers)
+        {
             int num_additional_players = numPlayers - game.getNumPlayers();
             Integer n = game.getNumPlayers() + 1;
             System.out.println("JDEBUG:: adding players now....");
             System.out.println("JDEBUG:: number of additional players = " + num_additional_players);
 
-            for(int i=0; i<num_additional_players; i++) {
+            for(int i=0; i<num_additional_players; i++)
+            {
                 System.out.println("JDEBUG::" + num_additional_players + "Players entering the game!!!!");
                 game.enterGame("Player " + n.toString());
                 n++;
             }
         }
-        else if(game.getNumPlayers() > numPlayers){
+        else if(game.getNumPlayers() > numPlayers)
+        {
             // need to remove extra players to the desired amount of players
             System.out.println("JDEBUG:: removing players from the game");
             game.removeRangeOfPlayers(numPlayers, game.getNumPlayers() );
@@ -133,14 +149,16 @@ public class SettingsActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed()
+    {
         // set amount of cash starting with
         enter_cash_et = (EditText)findViewById(R.id.starting_cash_etxt);
         int starting_cash = Integer.parseInt(enter_cash_et.getText().toString() );
         game.setEnterCash(starting_cash);
 
         // copy names in TextEdit player name elements
-        for(int i = 0; i < game.getNumPlayers(); i++){
+        for(int i = 0; i < game.getNumPlayers(); i++)
+        {
             EditText name_et = (EditText)findViewById(player_name_item_res[i]).
                     findViewById(R.id.player_name_item_et);
             String name = name_et.getText().toString();
@@ -157,7 +175,8 @@ public class SettingsActivity extends AppCompatActivity
     }
 
 
-    private void renderNameList(LinearLayout ll, String[] names){
+    private void renderNameList(LinearLayout ll, String[] names)
+    {
         /** when user selects how many user are to play in the game
          *  the list view will automatically update
          *
@@ -168,19 +187,24 @@ public class SettingsActivity extends AppCompatActivity
         System.out.println("RenderNameList:: attempting to render name list..");
         System.out.println("Length of names: " + names.length);
 
-        for(int i = 0 ; i < names.length; i++){
+        for(int i = 0 ; i < names.length; i++)
+        {
             ll.findViewById(player_name_item_res[i]).setVisibility(View.VISIBLE);
-            ImageView iv = (ImageView) ll.findViewById(player_name_item_res[i]).
-                    findViewById(R.id.player_icon_imgview);
-            iv.setImageDrawable(playerImgs.get(i));
+            ImageView iv = (ImageView)ll.findViewById( player_name_item_res[i] ).
+                    findViewById( R.id.player_icon_imgview );
+//            iv.setImageDrawable(playerImgs.get(i));
+            new DecodeBitMapFromResourceTask( iv, getResources())
+                    .execute(img_res[i], R.dimen.player_icon_size, R.dimen.player_icon_size_settings);
 
             EditText et = (EditText)ll.findViewById(player_name_item_res[i]).
                     findViewById(R.id.player_name_item_et);
             et.setText( names[i] );
+            iv.setVisibility(View.VISIBLE);
         }
         // hide views not in use
         int numToRemove = 6 - names.length;
-        for(int i = 0; i < numToRemove; i++){
+        for(int i = 0; i < numToRemove; i++)
+        {
             ll.findViewById(player_name_item_res[5-i]).setVisibility(View.INVISIBLE);
         }
     }

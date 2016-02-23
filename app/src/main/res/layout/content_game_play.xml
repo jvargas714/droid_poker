@@ -30,12 +30,9 @@
             android:gravity="center"
             android:visibility="invisible">
 
-            <include layout="@layout/flipped_card_item">
-            </include>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card1"/>
 
-            <include layout="@layout/flipped_card_item">
-            </include>
-        </LinearLayout>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card2"/>        </LinearLayout>
 
         <ImageView
             android:layout_width="@dimen/player_icon_size"
@@ -62,12 +59,12 @@
         <LinearLayout
             android:layout_width="@dimen/player_icon_size"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal">
-            <include layout="@layout/flipped_card_item">
-            </include>
+            android:id="@+id/p1_hole_cards"
+            android:gravity="center_horizontal"
+            android:visibility="invisible">
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card1"/>
 
-            <include layout="@layout/flipped_card_item">
-            </include>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card2"/>
         </LinearLayout>
 
         <ImageView
@@ -99,14 +96,11 @@
             android:baselineAligned="false"
             android:orientation="horizontal"
             android:gravity="center"
-            android:visibility="visible">
+            android:visibility="invisible">
 
-            <include layout="@layout/flipped_card_item">
-            </include>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card1"/>
 
-            <include layout="@layout/flipped_card_item">
-            </include>
-        </LinearLayout>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card2"/>        </LinearLayout>
 
     <ImageView
         android:layout_width="@dimen/player_icon_size"
@@ -149,12 +143,9 @@
             android:gravity="center"
             android:visibility="invisible">
 
-            <include layout="@layout/flipped_card_item">
-            </include>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card1"/>
 
-            <include layout="@layout/flipped_card_item">
-            </include>
-        </LinearLayout>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card2"/>        </LinearLayout>
     </LinearLayout>
     <!--end player 5 -->
 
@@ -186,12 +177,9 @@
             android:gravity="center"
             android:visibility="invisible">
 
-            <include layout="@layout/flipped_card_item">
-            </include>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card1"/>
 
-            <include layout="@layout/flipped_card_item">
-            </include>
-        </LinearLayout>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card2"/>        </LinearLayout>
     </LinearLayout>
 
     <!--end player 4 -->
@@ -226,12 +214,9 @@
             android:gravity="center"
             android:visibility="invisible">
 
-            <include layout="@layout/flipped_card_item">
-            </include>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card1"/>
 
-            <include layout="@layout/flipped_card_item">
-            </include>
-        </LinearLayout>
+            <include layout="@layout/flipped_card_item" android:id="@+id/hole_card2"/>        </LinearLayout>
     </LinearLayout>
     <!--end player 3 -->
 
